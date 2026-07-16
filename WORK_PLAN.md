@@ -51,9 +51,9 @@ These items have no dependencies and can be assigned now.
 | ARCH-006 | Done | Architecture | Implement skeleton runtime state machine with fake adapters | Added `AssistantRuntime` skeleton state machine (`assistant_core/runtime/state_machine.py`) wired to fake adapters/event bus, with runtime transition and recovery tests. |
 | TEST-003 | Done | Testing | Create reusable fake components and core test fixtures | Added shared runtime harness fixtures (`tests/conftest.py`, `tests/fixtures/runtime.py`) and refactored runtime tests to use fixture-based fake components. |
 | CONF-001 | Done | Configuration | Design typed configuration schema and defaults | Added typed config dataclasses/validation in `assistant_core/config/schema.py` with explicit defaults and sample config `config/default.toml`, plus unit tests. |
-| CONF-002 | Backlog | Configuration | Implement config loader, validation, and environment overrides | CONF-001, TEST-002 |
-| CONF-003 | Backlog | Configuration | Add sample configurations for development and reference devices | CONF-002 |
-| DOC-002 | Backlog | Documentation | Document architecture boundaries and agent contribution workflow | ARCH-001 |
+| CONF-002 | Done | Configuration | Implement config loader, validation, and environment overrides | Added `assistant_core/config/loader.py` with default+user+env precedence and structured errors; added `tests/unit/config/test_loader.py`; exported loader API in `assistant_core/config/__init__.py`; updated README configuration loading notes. |
+| CONF-003 | Done | Configuration | Add sample configurations for development and reference devices | Added `config/development.toml`, `config/reference-raspberry-pi4.toml`, and `config/reference-mini-pc.toml`; added parse/load coverage in `tests/unit/config/test_schema.py` and `tests/unit/config/test_loader.py`; updated README sample profile references. |
+| DOC-002 | Done | Documentation | Document architecture boundaries and agent contribution workflow | Added `docs/ARCHITECTURE_AND_WORKFLOW.md` covering pipeline/runtime boundaries and contribution workflow; linked from `README.md` and `CONTRIBUTING.md`. |
 
 **Wave 1 coordination:** Coordinate names between `ARCH-003` and `CONF-001`. Merge `ARCH-004` early because it releases all subsystem adapter work. `TEST-003` should provide shared fakes rather than each subsystem creating its own.
 

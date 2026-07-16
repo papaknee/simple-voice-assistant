@@ -2,6 +2,8 @@
 
 This project is organized around dependency-aware work items in [WORK_PLAN.md](WORK_PLAN.md).
 
+Architecture boundaries and the shared contribution workflow are documented in [docs/ARCHITECTURE_AND_WORKFLOW.md](docs/ARCHITECTURE_AND_WORKFLOW.md).
+
 ## Workflow
 
 1. Select a work item with status `Ready`.

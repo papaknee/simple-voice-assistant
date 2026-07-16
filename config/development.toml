@@ -1,0 +1,42 @@
+[wake]
+engine = "fake"
+model_path = ""
+sensitivity = 0.5
+activation_cooldown_seconds = 1.0
+alternate_phrases = []
+
+[audio]
+input_device = ""
+output_device = ""
+sample_rate_hz = 16000
+channels = 1
+
+[stt]
+engine = "fake"
+model_path = ""
+language = "en-US"
+max_utterance_seconds = 12.0
+silence_seconds = 1.0
+
+[tts]
+engine = "fake"
+voice = ""
+language = "en-US"
+speaking_rate = 1.0
+volume = 1.0
+
+[skills]
+enabled_builtin_skills = ["time_date", "echo_debug"]
+plugin_paths = []
+
+[logging]
+level = "DEBUG"
+redact_sensitive = true
+
+[privacy]
+store_transcripts = false
+store_audio = false
+
+[runtime]
+command_timeout_seconds = 20.0
+fallback_response = "I did not understand the command."

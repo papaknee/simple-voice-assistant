@@ -18,6 +18,7 @@ Development is tracked in waves and dependency-gated work items:
 - Work tracker: [WORK_PLAN.md](WORK_PLAN.md)
 - Development specification: [simple assistant spec.md](simple%20assistant%20spec.md)
 - Shared implementation guardrails: [guidelines.md](guidelines.md)
+- Architecture boundaries and workflow: [docs/ARCHITECTURE_AND_WORKFLOW.md](docs/ARCHITECTURE_AND_WORKFLOW.md)
 - Testing strategy and CI assumptions: [TESTING.md](TESTING.md)
 
 ## Planned architecture (high-level)
@@ -61,7 +62,27 @@ Core typed domain models and runtime event types currently live in:
 - `assistant_core/fakes.py`
 - `assistant_core/runtime/state_machine.py`
 - `assistant_core/config/schema.py`
+- `assistant_core/config/loader.py`
 - `config/default.toml`
+
+## Configuration loading
+
+The configuration system supports:
+
+- default TOML loading from `config/default.toml`
+- optional user TOML overrides
+- environment overrides with `ASSISTANT_<SECTION>__<KEY>`
+
+Sample profiles are provided in `config/`:
+
+- `development.toml`
+- `reference-raspberry-pi4.toml`
+- `reference-mini-pc.toml`
+
+Examples:
+
+- `ASSISTANT_AUDIO__SAMPLE_RATE_HZ=44100`
+- `ASSISTANT_PRIVACY__STORE_TRANSCRIPTS=true`
 
 ## Contributing
 

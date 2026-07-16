@@ -46,3 +46,16 @@ def test_default_toml_is_parseable_and_contains_required_sections() -> None:
     data = tomllib.loads(default_path.read_text(encoding="utf-8"))
     for required in ("wake", "audio", "stt", "tts", "skills", "logging", "privacy", "runtime"):
         assert required in data
+
+
+def test_sample_toml_files_are_parseable_and_contain_required_sections() -> None:
+    config_dir = Path(__file__).resolve().parents[3].joinpath("config")
+    sample_names = (
+        "development.toml",
+        "reference-raspberry-pi4.toml",
+        "reference-mini-pc.toml",
+    )
+    for file_name in sample_names:
+        data = tomllib.loads(config_dir.joinpath(file_name).read_text(encoding="utf-8"))
+        for required in ("wake", "audio", "stt", "tts", "skills", "logging", "privacy", "runtime"):
+            assert required in data
