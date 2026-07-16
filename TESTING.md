@@ -88,6 +88,7 @@ Use this baseline command set in local validation and CI smoke runs:
 
 - Add tests in the same change set as behavior changes.
 - Prefer existing shared fixtures/fakes over ad hoc mocks.
+- Reuse `tests/fixtures/runtime.py` and `tests/conftest.py` runtime harness fixtures for pipeline tests.
 - Keep fixture audio files short and deterministic.
 - Assert structured errors and actionable messages.
 - Verify recovery behavior for non-fatal failures so runtime can return to listening state.

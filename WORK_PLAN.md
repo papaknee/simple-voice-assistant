@@ -46,10 +46,10 @@ These items have no dependencies and can be assigned now.
 | ARCH-002 | Done | Architecture | Create `pyproject.toml` with package metadata and dependency groups | Added `pyproject.toml` with PEP 621 metadata, setuptools build config, and optional dependency groups (`dev`, `audio`, `wake`, `vad`, `stt`, `tts`, `hardware`). |
 | TEST-002 | Done | Testing | Configure pytest, ruff, mypy, formatting, and pre-commit hooks | Added tool configuration in `pyproject.toml` (`pytest`, `ruff`, `mypy`) plus `.pre-commit-config.yaml`; documented default validation commands. |
 | ARCH-003 | Done | Architecture | Define core dataclasses and runtime event types | Added `assistant_core/models.py` core dataclasses and `assistant_core/runtime/events.py` runtime state/event types, with unit tests for validation/defaults. |
-| ARCH-004 | Backlog | Architecture | Define abstract interfaces for replaceable components | ARCH-003 |
-| ARCH-005 | Backlog | Architecture | Implement event bus and fake component adapters | ARCH-003, ARCH-004 |
-| ARCH-006 | Backlog | Architecture | Implement skeleton runtime state machine with fake adapters | ARCH-005 |
-| TEST-003 | Backlog | Testing | Create reusable fake components and core test fixtures | ARCH-004 |
+| ARCH-004 | Done | Architecture | Define abstract interfaces for replaceable components | Added protocol contracts in `assistant_core/interfaces.py` for audio, wake, VAD, STT, intent, skill, TTS, sound, and event bus components; added interface compatibility tests. |
+| ARCH-005 | Done | Architecture | Implement event bus and fake component adapters | Added `InMemoryRuntimeEventBus` (`assistant_core/runtime/event_bus.py`) and reusable fake adapters (`assistant_core/fakes.py`) with unit tests for dispatch, recording, and fake behavior. |
+| ARCH-006 | Done | Architecture | Implement skeleton runtime state machine with fake adapters | Added `AssistantRuntime` skeleton state machine (`assistant_core/runtime/state_machine.py`) wired to fake adapters/event bus, with runtime transition and recovery tests. |
+| TEST-003 | Done | Testing | Create reusable fake components and core test fixtures | Added shared runtime harness fixtures (`tests/conftest.py`, `tests/fixtures/runtime.py`) and refactored runtime tests to use fixture-based fake components. |
 | CONF-001 | Backlog | Configuration | Design typed configuration schema and defaults | ARCH-003 |
 | CONF-002 | Backlog | Configuration | Implement config loader, validation, and environment overrides | CONF-001, TEST-002 |
 | CONF-003 | Backlog | Configuration | Add sample configurations for development and reference devices | CONF-002 |
