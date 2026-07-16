@@ -32,9 +32,9 @@ These items have no dependencies and can be assigned now.
 
 | ID | Status | Owner Agent | Work Item | Handoff / Exit Gate |
 | --- | --- | --- | --- | --- |
-| META-001 | Ready | Architecture | Confirm MVP decisions and unresolved project assumptions | Record decisions for reference hardware, offline MVP scope, wake customization, default voice/style, built-in skills, and transcript retention. |
-| DOC-001 | Ready | Documentation | Create initial README outline and contribution conventions | Establish contributor workflow and link this tracker. |
-| TEST-001 | Ready | Testing | Define testing strategy, pytest layout, and CI assumptions | Document default offline test expectations and required test categories. |
+| META-001 | Done | Architecture | Confirm MVP decisions and unresolved project assumptions | Decisions recorded in "META-001 Decision Record" below; `ARCH-001` is now unblocked. |
+| DOC-001 | Done | Documentation | Create initial README outline and contribution conventions | Added `README.md` and `CONTRIBUTING.md`; contributor workflow and tracker links are now documented. |
+| TEST-001 | Done | Testing | Define testing strategy, pytest layout, and CI assumptions | Added `TESTING.md` with offline defaults, required test categories, pytest layout, markers, and CI assumptions. |
 
 ## Wave 1: Foundation
 
@@ -42,7 +42,7 @@ These items have no dependencies and can be assigned now.
 
 | ID | Status | Owner Agent | Work Item | Dependencies |
 | --- | --- | --- | --- | --- |
-| ARCH-001 | Backlog | Architecture | Create repository package structure and baseline project files | META-001 |
+| ARCH-001 | Done | Architecture | Create repository package structure and baseline project files | Added baseline scaffold (`assistant_core/` packages, top-level project directories, `.gitignore`, typed package marker, README layout section); unblocks `ARCH-002`, `TEST-002`, `ARCH-003`, and `DOC-002`. |
 | ARCH-002 | Backlog | Architecture | Create `pyproject.toml` with package metadata and dependency groups | ARCH-001 |
 | TEST-002 | Backlog | Testing | Configure pytest, ruff, mypy, formatting, and pre-commit hooks | ARCH-001 |
 | ARCH-003 | Backlog | Architecture | Define core dataclasses and runtime event types | ARCH-001 |
@@ -56,6 +56,29 @@ These items have no dependencies and can be assigned now.
 | DOC-002 | Backlog | Documentation | Document architecture boundaries and agent contribution workflow | ARCH-001 |
 
 **Wave 1 coordination:** Coordinate names between `ARCH-003` and `CONF-001`. Merge `ARCH-004` early because it releases all subsystem adapter work. `TEST-003` should provide shared fakes rather than each subsystem creating its own.
+
+## META-001 Decision Record
+
+The following decisions resolve the Wave 0 architecture assumptions and set the MVP baseline for downstream agents.
+
+| Decision Area | MVP Decision | Notes for Dependent Work |
+| --- | --- | --- |
+| Reference hardware | Raspberry Pi 4 Model B (4 GB) on 64-bit Raspberry Pi OS Bookworm or equivalent Linux, with one system-recognized microphone and speaker path. | Keep implementations Linux-portable; do not rely on Raspberry Pi-specific APIs. |
+| Offline MVP scope | The default path is fully local after setup: local wake detection, local VAD/recording, local STT, deterministic intent routing, built-in skills, local TTS, and local sound cue playback. | Cloud adapters are optional and must remain opt-in. |
+| Wake customization | Wake behavior must be configurable (engine, model path, sensitivity/threshold, cooldown, alternate phrases) via config/assets with no core-code edits. | Do not hard-code wake phrases or model paths. |
+| Default voice/style | Default spoken response style is concise, neutral, and task-focused (generally one to two sentences unless detail is requested). | Keep response generation backend-configurable; style defaults belong in config, not code constants. |
+| Built-in skills for MVP | Include `time_date` and `echo_debug` as built-ins for first end-to-end validation. | Additional skills are optional and should be plugin-friendly. |
+| Transcript retention | Transcript and raw-audio retention are disabled by default. Any retention requires explicit user opt-in configuration and local-only storage controls. | Logging/observability should use metadata, timings, and redacted details by default. |
+
+### META-001 Exit Gate
+
+- [x] Reference hardware decision recorded.
+- [x] Offline MVP scope recorded.
+- [x] Wake customization policy recorded.
+- [x] Default voice/style decision recorded.
+- [x] Built-in MVP skills recorded.
+- [x] Transcript retention policy recorded.
+- [x] `ARCH-001` dependency on `META-001` is now satisfiable.
 
 ## Wave 2: Independent Subsystems
 

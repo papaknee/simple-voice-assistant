@@ -1,0 +1,71 @@
+# Simple Voice Assistant (Edge, Modular, Offline-First)
+
+This repository tracks the development of a modular Python voice assistant for Linux edge hardware.
+
+Current focus is foundation planning and implementation sequencing. Runtime code is not complete yet.
+
+## Project goals
+
+- Simple and extensible architecture with replaceable backends.
+- Configuration-first customization (wake, audio, STT, TTS, skills).
+- Offline-first default behavior after local setup.
+- Privacy-conscious defaults (no transcript/audio retention unless explicitly enabled).
+
+## Current status
+
+Development is tracked in waves and dependency-gated work items:
+
+- Work tracker: [WORK_PLAN.md](WORK_PLAN.md)
+- Development specification: [simple assistant spec.md](simple%20assistant%20spec.md)
+- Shared implementation guardrails: [guidelines.md](guidelines.md)
+- Testing strategy and CI assumptions: [TESTING.md](TESTING.md)
+
+## Planned architecture (high-level)
+
+Pipeline:
+
+`audio input -> wake word -> VAD/recording -> STT -> intent routing -> skill execution -> response generation -> TTS -> audio output`
+
+Each stage is intended to remain independently replaceable behind typed interfaces.
+
+## Repository layout (baseline)
+
+```text
+assistant_core/
+  audio/
+  wake/
+  vad/
+  stt/
+  intent/
+  skills/
+  tts/
+  runtime/
+tests/
+config/
+plugins/
+assets/sounds/
+models/
+docs/
+scripts/
+```
+
+## Contributing
+
+Contribution conventions and workflow are documented in [CONTRIBUTING.md](CONTRIBUTING.md).
+
+In short:
+
+1. Choose a `Ready` work item from [WORK_PLAN.md](WORK_PLAN.md).
+2. Keep changes scoped to that item and its explicit dependencies.
+3. Include tests/documentation updates in the same change set when behavior changes.
+4. Update work item status and handoff notes when complete.
+
+## Implementation roadmap
+
+The roadmap is organized in waves:
+
+- Wave 0: decisions and documentation setup
+- Wave 1: core contracts, fake runtime path, config and test foundation
+- Wave 2: subsystem adapters
+- Wave 3: runtime assembly and customization
+- Wave 4: hardware hardening and release preparation
