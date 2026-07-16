@@ -75,6 +75,15 @@ tests/
 - CI excludes `hardware` and `performance` markers unless explicitly enabled in dedicated workflows.
 - No test should pull models or external assets at runtime in default CI.
 
+### Default command pattern
+
+Use this baseline command set in local validation and CI smoke runs:
+
+- `python -m pytest -m "not hardware and not performance"`
+- `python -m ruff check .`
+- `python -m ruff format --check .`
+- `python -m mypy assistant_core`
+
 ## Authoring guidance for future agents
 
 - Add tests in the same change set as behavior changes.
@@ -82,3 +91,4 @@ tests/
 - Keep fixture audio files short and deterministic.
 - Assert structured errors and actionable messages.
 - Verify recovery behavior for non-fatal failures so runtime can return to listening state.
+- Keep new pytest markers declared in `pyproject.toml` so strict marker checks remain stable.

@@ -25,6 +25,16 @@ This project is organized around dependency-aware work items in [WORK_PLAN.md](W
 - Add fixture-based/integration coverage where practical.
 - Cover failure handling for your subsystem (for example: invalid config, missing assets, timeouts, empty outputs).
 - Keep hardware-dependent tests opt-in.
+- Run local quality checks before handoff:
+  - `python -m pytest -m "not hardware and not performance"`
+  - `python -m ruff check .`
+  - `python -m ruff format --check .`
+  - `python -m mypy assistant_core`
+
+## Pre-commit hooks
+
+- Install with `python -m pre_commit install`.
+- Run all hooks with `python -m pre_commit run --all-files`.
 
 ## Documentation expectations
 

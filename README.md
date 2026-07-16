@@ -32,6 +32,7 @@ Each stage is intended to remain independently replaceable behind typed interfac
 
 ```text
 assistant_core/
+  models.py
   audio/
   wake/
   vad/
@@ -48,6 +49,11 @@ models/
 docs/
 scripts/
 ```
+
+Core typed domain models and runtime event types currently live in:
+
+- `assistant_core/models.py`
+- `assistant_core/runtime/events.py`
 
 ## Contributing
 

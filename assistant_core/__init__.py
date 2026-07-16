@@ -3,6 +3,7 @@
 __all__ = [
     "audio",
     "intent",
+    "models",
     "runtime",
     "skills",
     "stt",

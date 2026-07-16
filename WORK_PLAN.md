@@ -43,9 +43,9 @@ These items have no dependencies and can be assigned now.
 | ID | Status | Owner Agent | Work Item | Dependencies |
 | --- | --- | --- | --- | --- |
 | ARCH-001 | Done | Architecture | Create repository package structure and baseline project files | Added baseline scaffold (`assistant_core/` packages, top-level project directories, `.gitignore`, typed package marker, README layout section); unblocks `ARCH-002`, `TEST-002`, `ARCH-003`, and `DOC-002`. |
-| ARCH-002 | Backlog | Architecture | Create `pyproject.toml` with package metadata and dependency groups | ARCH-001 |
-| TEST-002 | Backlog | Testing | Configure pytest, ruff, mypy, formatting, and pre-commit hooks | ARCH-001 |
-| ARCH-003 | Backlog | Architecture | Define core dataclasses and runtime event types | ARCH-001 |
+| ARCH-002 | Done | Architecture | Create `pyproject.toml` with package metadata and dependency groups | Added `pyproject.toml` with PEP 621 metadata, setuptools build config, and optional dependency groups (`dev`, `audio`, `wake`, `vad`, `stt`, `tts`, `hardware`). |
+| TEST-002 | Done | Testing | Configure pytest, ruff, mypy, formatting, and pre-commit hooks | Added tool configuration in `pyproject.toml` (`pytest`, `ruff`, `mypy`) plus `.pre-commit-config.yaml`; documented default validation commands. |
+| ARCH-003 | Done | Architecture | Define core dataclasses and runtime event types | Added `assistant_core/models.py` core dataclasses and `assistant_core/runtime/events.py` runtime state/event types, with unit tests for validation/defaults. |
 | ARCH-004 | Backlog | Architecture | Define abstract interfaces for replaceable components | ARCH-003 |
 | ARCH-005 | Backlog | Architecture | Implement event bus and fake component adapters | ARCH-003, ARCH-004 |
 | ARCH-006 | Backlog | Architecture | Implement skeleton runtime state machine with fake adapters | ARCH-005 |

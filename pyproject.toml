@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simple-voice-assistant"
+version = "0.1.0a0"
+description = "Modular offline-first Python voice assistant for edge Linux hardware."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "papaknee" }]
+keywords = ["voice-assistant", "edge", "offline", "modular", "audio"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/papaknee/simple-voice-assistant"
+Issues = "https://github.com/papaknee/simple-voice-assistant/issues"
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.11.0",
+    "pre-commit>=3.8.0",
+    "pytest>=8.3.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.6.0",
+]
+audio = [
+    "sounddevice>=0.4.7",
+]
+wake = [
+    "openwakeword>=0.6.0",
+]
+vad = [
+    "webrtcvad-wheels>=2.0.14",
+]
+stt = [
+    "vosk>=0.3.45",
+]
+tts = [
+    "piper-tts>=1.3.0",
+]
+hardware = [
+    "pyalsaaudio>=0.10.0; platform_system == 'Linux'",
+]
+
+[tool.setuptools.packages.find]
+include = ["assistant_core*"]
+
+[tool.setuptools.package-data]
+assistant_core = ["py.typed"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+markers = [
+    "hardware: requires physical audio hardware and is excluded from default runs",
+    "performance: benchmark or timing-sensitive checks excluded from default runs",
+    "integration: deterministic multi-component integration tests",
+    "e2e: deterministic end-to-end tests",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["assistant_core", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.11"
+files = ["assistant_core"]
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+strict_equality = true
