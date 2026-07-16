@@ -2,6 +2,7 @@
 
 __all__ = [
     "audio",
+    "config",
     "fakes",
     "interfaces",
     "intent",

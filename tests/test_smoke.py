@@ -6,6 +6,7 @@ import assistant_core
 def test_assistant_core_exposes_expected_subpackages() -> None:
     assert sorted(assistant_core.__all__) == [
         "audio",
+        "config",
         "fakes",
         "intent",
         "interfaces",

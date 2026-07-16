@@ -60,6 +60,8 @@ Core typed domain models and runtime event types currently live in:
 - `assistant_core/runtime/event_bus.py`
 - `assistant_core/fakes.py`
 - `assistant_core/runtime/state_machine.py`
+- `assistant_core/config/schema.py`
+- `config/default.toml`
 
 ## Contributing
 

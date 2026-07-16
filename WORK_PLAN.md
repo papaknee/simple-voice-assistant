@@ -50,7 +50,7 @@ These items have no dependencies and can be assigned now.
 | ARCH-005 | Done | Architecture | Implement event bus and fake component adapters | Added `InMemoryRuntimeEventBus` (`assistant_core/runtime/event_bus.py`) and reusable fake adapters (`assistant_core/fakes.py`) with unit tests for dispatch, recording, and fake behavior. |
 | ARCH-006 | Done | Architecture | Implement skeleton runtime state machine with fake adapters | Added `AssistantRuntime` skeleton state machine (`assistant_core/runtime/state_machine.py`) wired to fake adapters/event bus, with runtime transition and recovery tests. |
 | TEST-003 | Done | Testing | Create reusable fake components and core test fixtures | Added shared runtime harness fixtures (`tests/conftest.py`, `tests/fixtures/runtime.py`) and refactored runtime tests to use fixture-based fake components. |
-| CONF-001 | Backlog | Configuration | Design typed configuration schema and defaults | ARCH-003 |
+| CONF-001 | Done | Configuration | Design typed configuration schema and defaults | Added typed config dataclasses/validation in `assistant_core/config/schema.py` with explicit defaults and sample config `config/default.toml`, plus unit tests. |
 | CONF-002 | Backlog | Configuration | Implement config loader, validation, and environment overrides | CONF-001, TEST-002 |
 | CONF-003 | Backlog | Configuration | Add sample configurations for development and reference devices | CONF-002 |
 | DOC-002 | Backlog | Documentation | Document architecture boundaries and agent contribution workflow | ARCH-001 |
