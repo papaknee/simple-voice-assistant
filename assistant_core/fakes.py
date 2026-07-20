@@ -15,7 +15,6 @@ from assistant_core.interfaces import (
     SpeechToTextEngine,
     SynthesizedAudio,
     TextToSpeechEngine,
-    VoiceActivityDetector,
     WakeDetection,
     WakeWordDetector,
 )
@@ -30,6 +29,8 @@ from assistant_core.models import (
     Transcript,
 )
 from assistant_core.runtime.event_bus import InMemoryRuntimeEventBus
+from assistant_core.stt.engine import FakeSpeechToTextEngine
+from assistant_core.vad.detector import FakeVoiceActivityDetector
 
 
 @dataclass(slots=True)
@@ -119,54 +120,6 @@ class FakeWakeWordDetector(WakeWordDetector):
 
     def detection_metadata(self) -> dict[str, JsonValue]:
         return {"engine": "fake", "wake_frame": self.wake_frame.decode("utf-8", errors="ignore")}
-
-
-@dataclass(slots=True)
-class FakeVoiceActivityDetector(VoiceActivityDetector):
-    """Simple fake VAD with configurable speech/silence stop threshold."""
-
-    stop_after_silence_frames: int = 2
-    _seen_speech: bool = False
-    _silence_frames: int = 0
-    _speech: bool = False
-
-    def process_frame(self, frame: bytes) -> None:
-        self._speech = bool(frame.strip())
-        if self._speech:
-            self._seen_speech = True
-            self._silence_frames = 0
-            return
-        self._silence_frames += 1
-
-    def is_speech(self) -> bool:
-        return self._speech
-
-    def should_stop_recording(self) -> bool:
-        return self._seen_speech and self._silence_frames >= self.stop_after_silence_frames
-
-
-@dataclass(slots=True)
-class FakeSpeechToTextEngine(SpeechToTextEngine):
-    """Fake STT returning configurable transcript text."""
-
-    transcript_text: str = "hello"
-    confidence: float = 1.0
-    language_default: str = "en-US"
-
-    def transcribe(
-        self,
-        audio_bytes: bytes,
-        audio: CapturedAudio,
-        *,
-        language: str | None = None,
-        options: dict[str, JsonValue] | None = None,
-    ) -> Transcript:
-        _ = (audio_bytes, audio, options)
-        return Transcript(
-            text=self.transcript_text,
-            confidence=self.confidence,
-            language=language or self.language_default,
-        )
 
 
 @dataclass(slots=True)
