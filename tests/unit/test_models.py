@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import pytest
+
+from assistant_core.interfaces import SkillMetadata
 from assistant_core.models import AssistantContext, IntentResolution, Transcript
 
 
@@ -29,3 +31,13 @@ def test_transcript_confidence_rejects_invalid_range(confidence: float) -> None:
 def test_intent_resolution_rejects_invalid_confidence(confidence: float) -> None:
     with pytest.raises(ValueError, match="Intent confidence"):
         IntentResolution(intent_name="set_timer", confidence=confidence)
+
+
+def test_skill_metadata_defaults() -> None:
+    metadata = SkillMetadata(name="echo_debug", description="Echo input")
+
+    assert metadata.version == "0.1.0"
+    assert metadata.example_utterances == ()
+    assert metadata.tags == ()
+    assert metadata.config_schema == {}
+    assert metadata.response_contract == {}

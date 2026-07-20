@@ -60,6 +60,18 @@ class SkillMetadata:
     version: str = "0.1.0"
     example_utterances: tuple[str, ...] = ()
     tags: tuple[str, ...] = ()
+    config_schema: dict[str, JsonValue] = field(default_factory=dict)
+    response_contract: dict[str, JsonValue] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if not self.name.strip():
+            raise ValueError("SkillMetadata name must be a non-empty string.")
+        if not self.description.strip():
+            raise ValueError("SkillMetadata description must be a non-empty string.")
+        if any(not utterance.strip() for utterance in self.example_utterances):
+            raise ValueError("SkillMetadata example_utterances entries must be non-empty strings.")
+        if any(not tag.strip() for tag in self.tags):
+            raise ValueError("SkillMetadata tags entries must be non-empty strings.")
 
 
 RuntimeEventHandler = Callable[[RuntimeEvent], None]

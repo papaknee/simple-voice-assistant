@@ -20,10 +20,13 @@ silence_seconds = 1.0
 
 [tts]
 engine = "fake"
+model_path = ""
 voice = ""
 language = "en-US"
 speaking_rate = 1.0
 volume = 1.0
+cache_enabled = false
+cache_max_entries = 64
 
 [sound]
 sound_pack_path = ""

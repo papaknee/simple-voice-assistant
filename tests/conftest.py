@@ -7,6 +7,7 @@ from collections.abc import Callable
 import pytest
 from assistant_core.fakes import FakeIntentRouter, FakeSpeechToTextEngine
 from assistant_core.models import AssistantContext
+from assistant_core.skills import SkillExecutor
 from tests.fixtures.runtime import RuntimeHarness, build_runtime_harness
 
 
@@ -25,7 +26,15 @@ def runtime_harness_factory() -> Callable[..., RuntimeHarness]:
         context: AssistantContext | None = None,
         stt: FakeSpeechToTextEngine | None = None,
         router: FakeIntentRouter | None = None,
+        skill=None,
+        skill_executor: SkillExecutor | None = None,
     ) -> RuntimeHarness:
-        return build_runtime_harness(context=context, stt=stt, router=router)
+        return build_runtime_harness(
+            context=context,
+            stt=stt,
+            router=router,
+            skill=skill,
+            skill_executor=skill_executor,
+        )
 
     return _factory

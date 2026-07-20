@@ -18,6 +18,7 @@ from assistant_core.fakes import (
 from assistant_core.models import AssistantContext, IntentResolution
 from assistant_core.runtime.event_bus import InMemoryRuntimeEventBus
 from assistant_core.runtime.state_machine import AssistantRuntime
+from assistant_core.skills import SkillExecutor
 
 
 @dataclass(slots=True)
@@ -42,6 +43,8 @@ def build_runtime_harness(
     context: AssistantContext | None = None,
     stt: FakeSpeechToTextEngine | None = None,
     router: FakeIntentRouter | None = None,
+    skill: FakeSkill | None = None,
+    skill_executor: SkillExecutor | None = None,
 ) -> RuntimeHarness:
     """Build a deterministic assistant runtime wired to reusable fake components."""
 
@@ -53,7 +56,7 @@ def build_runtime_harness(
     intent_router = router or FakeIntentRouter(
         routes={"hello": IntentResolution(intent_name="echo_debug", confidence=1.0)}
     )
-    skill = FakeSkill(skill_name="echo_debug")
+    selected_skill = skill or FakeSkill(skill_name="echo_debug")
     tts = FakeTextToSpeechEngine()
     sounds = FakeSoundManager()
     bus = InMemoryRuntimeEventBus()
@@ -64,11 +67,12 @@ def build_runtime_harness(
         vad=vad,
         stt=stt_engine,
         intent_router=intent_router,
-        skills=[skill],
+        skills=[selected_skill],
         tts=tts,
         sound_manager=sounds,
         event_bus=bus,
         context=context or AssistantContext(session_id="session-1", turn_id="turn-1"),
+        skill_executor=skill_executor or SkillExecutor(),
     )
     return RuntimeHarness(
         runtime=runtime,
@@ -78,7 +82,7 @@ def build_runtime_harness(
         vad=vad,
         stt=stt_engine,
         router=intent_router,
-        skill=skill,
+        skill=selected_skill,
         tts=tts,
         sounds=sounds,
         bus=bus,

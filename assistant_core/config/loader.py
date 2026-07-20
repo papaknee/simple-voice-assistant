@@ -93,10 +93,13 @@ def _default_raw_config() -> dict[str, dict[str, object]]:
         },
         "tts": {
             "engine": default_config.tts.engine,
+            "model_path": default_config.tts.model_path,
             "voice": default_config.tts.voice,
             "language": default_config.tts.language,
             "speaking_rate": default_config.tts.speaking_rate,
             "volume": default_config.tts.volume,
+            "cache_enabled": default_config.tts.cache_enabled,
+            "cache_max_entries": default_config.tts.cache_max_entries,
         },
         "skills": {
             "enabled_builtin_skills": list(default_config.skills.enabled_builtin_skills),
@@ -267,10 +270,13 @@ def _parse_assistant_config(
     )
     tts = TextToSpeechConfig(
         engine=_parse_required_string(raw_config, "tts", "engine", errors),
+        model_path=_parse_optional_string(raw_config, "tts", "model_path", errors),
         voice=_parse_optional_string(raw_config, "tts", "voice", errors),
         language=_parse_required_string(raw_config, "tts", "language", errors),
         speaking_rate=_parse_float(raw_config, "tts", "speaking_rate", errors),
         volume=_parse_float(raw_config, "tts", "volume", errors),
+        cache_enabled=_parse_bool(raw_config, "tts", "cache_enabled", errors),
+        cache_max_entries=_parse_int(raw_config, "tts", "cache_max_entries", errors),
     )
     skills = SkillsConfig(
         enabled_builtin_skills=_parse_string_tuple(

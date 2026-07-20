@@ -44,10 +44,13 @@ class TextToSpeechConfig:
     """Text-to-speech configuration defaults."""
 
     engine: str = "fake"
+    model_path: str | None = None
     voice: str | None = None
     language: str = "en-US"
     speaking_rate: float = 1.0
     volume: float = 1.0
+    cache_enabled: bool = False
+    cache_max_entries: int = 64
 
 
 @dataclass(frozen=True, slots=True)
@@ -170,6 +173,14 @@ class AssistantConfig:
                     code="config.tts.volume_range",
                     message="tts.volume must be between 0.0 and 2.0.",
                     details={"value": self.tts.volume},
+                )
+            )
+        if self.tts.cache_max_entries < 1:
+            errors.append(
+                AssistantError(
+                    code="config.tts.cache_max_entries_positive",
+                    message="tts.cache_max_entries must be >= 1.",
+                    details={"value": self.tts.cache_max_entries},
                 )
             )
         if not self.skills.enabled_builtin_skills:

@@ -84,6 +84,12 @@ Examples:
 - `ASSISTANT_AUDIO__SAMPLE_RATE_HZ=44100`
 - `ASSISTANT_PRIVACY__STORE_TRANSCRIPTS=true`
 
+Built-in skills are registered through `assistant_core.skills.SkillRegistry` and enabled through `skills.enabled_builtin_skills` in configuration. Skill metadata includes example utterances plus optional configuration and response-contract descriptors so intent routing and future plugin loading can consume a stable shape.
+
+Skill execution guardrails live in `assistant_core.skills.SkillExecutor`. The default policy allows `filesystem_read` and denies dangerous permissions such as `network`, `filesystem_write`, `gpio`, `shell`, and `home_automation` unless a caller explicitly opts in.
+
+The built-in MVP skills currently ship from `assistant_core.skills`: `TimeDateSkill` handles both `get_time` and `get_date` intents under the stable `time_date` skill identity, and `EchoDebugSkill` returns routed text for pipeline debugging. `create_builtin_skills()` returns them in the default registration order used by configuration.
+
 ## Contributing
 
 Contribution conventions and workflow are documented in [CONTRIBUTING.md](CONTRIBUTING.md).

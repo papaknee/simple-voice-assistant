@@ -28,6 +28,7 @@ from assistant_core.models import (
     Transcript,
 )
 from assistant_core.runtime.events import RuntimeEvent, RuntimeEventType, RuntimeState
+from assistant_core.skills import SkillExecutor
 
 
 @dataclass(slots=True)
@@ -45,6 +46,7 @@ class AssistantRuntime:
     sound_manager: SoundManager
     event_bus: RuntimeEventBus
     context: AssistantContext
+    skill_executor: SkillExecutor = field(default_factory=SkillExecutor)
     fallback_response: str = "I did not understand the command."
     state: RuntimeState = RuntimeState.BOOT
     _capture_buffer: bytearray = field(default_factory=bytearray)
@@ -174,7 +176,7 @@ class AssistantRuntime:
             intent=intent,
             context=self.context,
         )
-        return selected.run(request, self.context)
+        return self.skill_executor.execute(selected, request, self.context)
 
     def _select_skill(self, intent_name: str | None, intent: IntentResolution) -> Skill | None:
         if intent_name is None:
@@ -182,6 +184,9 @@ class AssistantRuntime:
         for skill in self.skills:
             if skill.metadata().name != intent_name:
                 continue
+            if skill.can_handle(intent):
+                return skill
+        for skill in self.skills:
             if skill.can_handle(intent):
                 return skill
         return None

@@ -18,6 +18,7 @@ from assistant_core.interfaces import (
     WakeDetection,
     WakeWordDetector,
 )
+from assistant_core.tts.engine import FakeTextToSpeechEngine
 from assistant_core.models import (
     AssistantContext,
     AssistantError,
@@ -166,30 +167,6 @@ class FakeSkill(Skill):
 
     def permissions(self) -> set[str]:
         return {"filesystem_read"}
-
-
-@dataclass(slots=True)
-class FakeTextToSpeechEngine(TextToSpeechEngine):
-    """Fake TTS that returns encoded input text as bytes."""
-
-    sample_rate_hz: int = 22050
-    channels: int = 1
-    sample_width_bytes: int = 2
-
-    def synthesize(
-        self,
-        text: str,
-        *,
-        voice: str | None = None,
-        options: dict[str, JsonValue] | None = None,
-    ) -> SynthesizedAudio:
-        _ = (voice, options)
-        return SynthesizedAudio(
-            audio_bytes=text.encode("utf-8"),
-            sample_rate_hz=self.sample_rate_hz,
-            channels=self.channels,
-            sample_width_bytes=self.sample_width_bytes,
-        )
 
 
 @dataclass(slots=True)
