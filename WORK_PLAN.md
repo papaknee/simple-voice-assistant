@@ -84,13 +84,13 @@ The following decisions resolve the Wave 0 architecture assumptions and set the 
 
 **Gate:** Implement each backend behind the stable interfaces. Use fake components and fixture tests so the tracks can proceed concurrently.
 
-| ID | Status | Owner Agent | Work Item | Dependencies |
+| ID | Status | Owner Agent | Work Item | Handoff / Exit Gate |
 | --- | --- | --- | --- | --- |
-| AUDIO-001 | Backlog | Audio | Implement audio device discovery and selection | ARCH-004, CONF-002, TEST-003 |
-| AUDIO-002 | Backlog | Audio | Implement microphone capture and PCM frame buffering | AUDIO-001 |
-| AUDIO-003 | Backlog | Audio | Implement audio output playback and sound manager | AUDIO-001, CONF-002 |
-| WAKE-001 | Backlog | Wake Word | Implement wake-word adapter shell and fake detector | ARCH-004, CONF-002, TEST-003 |
-| WAKE-002 | Backlog | Wake Word | Implement first local wake-word backend adapter | WAKE-001 |
+| AUDIO-001 | Done | Audio | Implement audio device discovery and selection | Added `assistant_core/audio/devices.py` with `list_audio_devices()` and `select_audio_device()` functions; comprehensive unit tests in `tests/unit/audio/test_devices.py`; supports device discovery by ID, name, and system default; proper error handling with structured error codes; unblocks AUDIO-002 and AUDIO-003. |
+| AUDIO-002 | Done | Audio | Implement microphone capture and PCM frame buffering | Added `assistant_core/audio/microphone.py` with `SoundDeviceAudioInput` adapter; implements AudioInput protocol with frame buffering using deque; comprehensive unit tests in `tests/unit/audio/test_microphone.py` with 14 test cases; configurable sample rate/channels/buffer size; proper error handling and lifecycle management; unblocks VAD-002. |
+| AUDIO-003 | Done | Audio | Implement audio output playback and sound manager | Added `assistant_core/audio/speaker.py` with `SoundDeviceAudioOutput` adapter implementing AudioOutput protocol; added `assistant_core/audio/sounds.py` with `FileSoundManager` and `NullSoundManager` implementing SoundManager protocol; comprehensive unit tests in `tests/unit/audio/test_playback.py` with 24+ test cases; integrated with config schema for sound settings; all components follow established patterns for thread safety, error handling, and testability; unblocks CUSTOM-001, RUNTIME-003, and TEST-005. |
+| WAKE-001 | Done | Wake Word | Implement wake-word adapter shell and fake detector | Added `assistant_core/wake/detector.py` with `ConfiguredWakeWordDetector` (threshold + cooldown) and `create_wake_detector` factory; updated `assistant_core/wake/__init__.py`; unit tests in `tests/unit/wake/test_detector.py`. |
+| WAKE-002 | Done | Wake Word | Implement first local wake-word backend adapter | Added `OpenWakeWordDetector` in `assistant_core/wake/detector.py` and wired `create_wake_detector` to support `wake.engine = "openwakeword"` with required `wake.model_path`; added unit tests covering openwakeword factory and adapter behavior (including missing dependency handling) in `tests/unit/wake/test_detector.py`; updated `assistant_core/wake/__init__.py` exports. |
 | VAD-001 | Backlog | VAD and Recording | Implement VAD interface adapter and fake VAD | ARCH-004, TEST-003 |
 | VAD-002 | Backlog | VAD and Recording | Implement command recording policy and audio buffer output | VAD-001, AUDIO-002 |
 | STT-001 | Backlog | STT | Implement STT abstraction shell and fake STT engine | ARCH-004, CONF-002, TEST-003 |

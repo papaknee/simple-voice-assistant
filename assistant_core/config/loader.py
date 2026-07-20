@@ -15,6 +15,7 @@ from assistant_core.config.schema import (
     PrivacyConfig,
     RuntimeConfig,
     SkillsConfig,
+    SoundConfig,
     SpeechToTextConfig,
     TextToSpeechConfig,
     WakeWordConfig,
@@ -112,6 +113,10 @@ def _default_raw_config() -> dict[str, dict[str, object]]:
         "runtime": {
             "command_timeout_seconds": default_config.runtime.command_timeout_seconds,
             "fallback_response": default_config.runtime.fallback_response,
+        },
+        "sound": {
+            "sound_pack_path": default_config.sound.sound_pack_path,
+            "enabled_cues": list(default_config.sound.enabled_cues),
         },
     }
 
@@ -289,6 +294,10 @@ def _parse_assistant_config(
             raw_config, "runtime", "fallback_response", errors
         ),
     )
+    sound = SoundConfig(
+        sound_pack_path=_parse_optional_string(raw_config, "sound", "sound_pack_path", errors),
+        enabled_cues=_parse_string_tuple(raw_config, "sound", "enabled_cues", errors),
+    )
 
     return (
         AssistantConfig(
@@ -300,6 +309,7 @@ def _parse_assistant_config(
             logging=logging,
             privacy=privacy,
             runtime=runtime,
+            sound=sound,
         ),
         errors,
     )

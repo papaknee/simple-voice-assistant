@@ -83,6 +83,14 @@ class RuntimeConfig:
 
 
 @dataclass(frozen=True, slots=True)
+class SoundConfig:
+    """Sound cue and audio playback configuration."""
+
+    sound_pack_path: str | None = None
+    enabled_cues: tuple[str, ...] = ("wake_detected", "listening_start", "success", "error")
+
+
+@dataclass(frozen=True, slots=True)
 class AssistantConfig:
     """Top-level assistant configuration schema."""
 
@@ -91,6 +99,7 @@ class AssistantConfig:
     stt: SpeechToTextConfig = field(default_factory=SpeechToTextConfig)
     tts: TextToSpeechConfig = field(default_factory=TextToSpeechConfig)
     skills: SkillsConfig = field(default_factory=SkillsConfig)
+    sound: SoundConfig = field(default_factory=SoundConfig)
     logging: LoggingConfig = field(default_factory=LoggingConfig)
     privacy: PrivacyConfig = field(default_factory=PrivacyConfig)
     runtime: RuntimeConfig = field(default_factory=RuntimeConfig)
@@ -175,6 +184,13 @@ class AssistantConfig:
                 AssistantError(
                     code="config.skills.plugin_paths_non_empty",
                     message="skills.plugin_paths entries must be non-empty strings.",
+                )
+            )
+        if any(not cue.strip() for cue in self.sound.enabled_cues):
+            errors.append(
+                AssistantError(
+                    code="config.sound.enabled_cues_non_empty",
+                    message="sound.enabled_cues entries must be non-empty strings.",
                 )
             )
         if self.runtime.command_timeout_seconds <= 0:

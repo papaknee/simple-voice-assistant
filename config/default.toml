@@ -25,6 +25,10 @@ language = "en-US"
 speaking_rate = 1.0
 volume = 1.0
 
+[sound]
+sound_pack_path = ""
+enabled_cues = ["wake_detected", "listening_start", "success", "error"]
+
 [skills]
 enabled_builtin_skills = ["time_date", "echo_debug"]
 plugin_paths = []
